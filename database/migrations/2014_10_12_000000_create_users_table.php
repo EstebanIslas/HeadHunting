@@ -15,14 +15,26 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
+
+            #Propias
             $table->string('name');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->string('image', 100)->nullable();
+            $table->string('rol')->nullable();
+
+            // Foraneas
+            $table->unsignedBigInteger('persona_id')->nullable();
+            
+            $table->foreign('persona_id')
+                ->references('id')
+                ->on('personas')
+                ->onDelete('cascade');
+
+            // Predeterminadas
             $table->rememberToken();
-            $table->foreignId('current_team_id')->nullable();
-            $table->string('profile_photo_path', 2048)->nullable();
-            $table->timestamps();
+            $table->timestamps(); 
         });
     }
 
